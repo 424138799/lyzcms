@@ -1,0 +1,47 @@
+<?php $this->load->view('Public_header.html');?>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <?php if(count($cates)): ?>
+                    <table class="table table-hover">
+                        <tr>
+                            <td colspan="5"><a href="<?php echo site_url('/Palette/addCate');?>" class="btn btn-primary">新增</a></td>
+                        </tr>
+                        <tr>
+                            <th>ID</th>
+                            <th>名称</th>
+                            <th>APP展示</th>
+                            <th>排序</th>
+                            <th>操作</th>
+                        </tr>
+                        <?php foreach($cates as $cate): ?>
+                        <tr>
+
+                            <td><?php echo $cate['id']; ?></td>
+
+                            <?php if($cate['p_id'] == '0'):?>
+
+                                        <td >├<?php echo $cate['name']?></td>
+
+                            <?php else:?>
+
+                                        <td >│<?php echo str_repeat(' &nbsp;&nbsp; ',$cate['lev']),' └─  '.$cate['name'];?></td>
+
+                            <?php endif;?>
+                            <!-- <td><?php echo $cate['name']; ?></td> -->
+                            <td><?php echo $cate['menu']==1 ? '是' : '否'; ?></td>
+                            <td><?php echo $cate['sort'];?></td>
+                            <td>
+                                <a href="<?php echo site_url('/Palette/editCate/').$cate['id']; ?>" title="编辑"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a href="<?php echo site_url('/Palette/delCate/').$cate['id']; ?>" title="删除" onclick="javascript:if(!confirm('确实要删除吗?')){return false;}"><span class="glyphicon glyphicon-remove"></span></a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </table>
+                    <?php else: ?>
+                    <h3>暂无信息！</h3>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+<?php $this->load->view('Public_footer.html');?>

@@ -1,0 +1,554 @@
+<include file="Public:header" />
+
+            <div class="row">
+<div class="col-xs-12">
+    <!--全局配置-->
+    <div class="panel panel-default" id="section1">
+        <div class="panel-heading">全局配置</div>
+        <div class="panel-body">
+            <form class="form-horizontal" role="form" method="post" action="<?php echo U('main'); ?>">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">网站名称</label>
+                    <div class="col-sm-4">
+                        <input name="site_name" type="text" class="form-control" value="<?php echo $options['site_name']; ?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">网站描述</label>
+                    <div class="col-sm-4">
+                        <textarea name="site_description" class="form-control"><?php echo $options['site_description']; ?></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">自定义页眉文本</label>
+                    <div class="col-sm-4">
+                        <textarea name="site_header" class="form-control"><?php echo $options['site_header']; ?></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">自定义页脚文本</label>
+                    <div class="col-sm-4">
+                        <textarea name="site_footer" class="form-control"><?php echo $options['site_footer']; ?></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">网站Logo</label>
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <input class="form-control thumb-input" type="text" name="site_logo" value="<?php echo $options['site_logo']; ?>" />
+                            <span class="input-group-btn">
+                                <button class="btn btn-default thumb-button" type="button">缩略图</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--全局配置-->
+
+    <!--幻灯片配置-->
+    <div class="panel panel-default" id="section2">
+        <div class="panel-heading">幻灯片配置</div>
+        <div class="panel-body">
+
+            <!--新增幻灯片-->
+            <div class="col-sm-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">新增幻灯片</div>
+                    <div class="panel-body">
+                        <form role="form" method="post" action="<?php echo U('slide_add'); ?>">
+                            <div class="form-group">
+                                <label>标题：</label>
+                                <input type="text" name="title" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label>链接：</label>
+                                <input type="text" name="url" class="form-control" value="http://" />
+                            </div>
+                            <div class="form-group">
+                                <label>描述：</label>
+                                <textarea name="description" class="form-control"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>缩略图：</label>
+                                <div class="input-group">
+                                    <input class="form-control thumb-input" type="text" name="thumb" />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default thumb-button" type="button">缩略图</button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit">新增幻灯片</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--新增幻灯片-->
+
+            <!--编辑幻灯片-->
+            <div class="col-sm-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading">编辑幻灯片(可拖拽顺序)</div>
+                    <form role="form" method="post" action="<?php echo U('slide_edit'); ?>">
+                        <div class="panel-body">
+
+                            <?php if(!empty($options['home_slider'])): ?>
+                            <div class="panel-group accordion" id="accordion">
+
+                                <!--单个元素-->
+                                <?php foreach($options['home_slider'] as $key => $slider): ?>
+                                <div class="panel panel-default slider-item">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $key; ?>">
+                                                <i class="glyphicon glyphicon-edit"></i><?php echo empty($slider['title'])?'无标题':$slider['title']; ?>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div <?php echo 'id="collapse'.$key.'"'; ?> class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <!--编辑表单-->
+                                            <div class="form-group">
+                                                <label>标题：</label>
+                                                <input type="text" name="title[]" class="form-control" value="<?php echo $slider['title']; ?>" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>链接：</label>
+                                                <input type="text" name="url[]" class="form-control" value="<?php echo $slider['url']; ?>" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>描述：</label>
+                                                <textarea name="description[]" class="form-control"><?php echo $slider['description']; ?></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>缩略图：</label>
+                                                <div class="input-group">
+                                                    <input class="form-control thumb-input" type="text" name="thumb[]" value="<?php echo $slider['thumb']; ?>" />
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-default thumb-button" type="button">缩略图</button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <button class="btn btn-danger slider-delete" type="button">删除</button>
+                                            </div>
+                                            <!--编辑表单-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php endforeach; ?>
+
+                                <!--单个元素-->
+                            </div>
+                            <?php else: ?>暂无！
+                            <?php endif; ?>
+
+                        </div>
+                        <div class="panel-footer">
+                            <button class="btn btn-primary" type="submit">保存</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--编辑幻灯片-->
+        </div>
+    </div>
+    <!--幻灯片配置-->
+
+
+    
+    <!--小栏目配置-->
+    <div class="panel panel-default" id="section3">
+        <div class="panel-heading">小栏目</div>
+        <div class="panel-body">
+
+            <!--新增小栏目-->
+            <div class="col-sm-4">
+
+                <div class="panel-group accordion" id="column">
+                    <!--调用文章-->
+                    <div class="panel panel-default slider-item">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-toggle="collapse" data-parent="#column" href="#column1">调用文章</a>
+                            </h4>
+                        </div>
+                        <div id="column1" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <form role="form" method="post" action="<?php echo U('column_add'); ?>">
+                                    <div class="form-group">
+                                        <label>标题：</label>
+                                        <input type="text" name="title" class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>文章ID：</label>
+                                        <input type="text" name="content" class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>内容长度：</label>
+                                        <input type="text" name="length" class="form-control" value="200" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="hidden" name="type" value="1" />
+                                        <button class="btn btn-primary" type="submit">新增</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!--调用文章-->
+
+                    <!--调用分类-->
+                    <div class="panel panel-default slider-item">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-toggle="collapse" data-parent="#column" href="#column2">调用分类</a>
+                            </h4>
+                        </div>
+                        <div id="column2" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <form role="form" method="post" action="<?php echo U('column_add'); ?>">
+                                    <div class="form-group">
+                                        <label>标题：</label>
+                                        <input type="text" name="title" class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>分类ID：</label>
+                                        <input type="text" name="content" class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>数量限制：</label>
+                                        <input type="text" name="length" class="form-control" value="10" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="hidden" name="type" value="2" />
+                                        <button class="btn btn-primary" type="submit">新增</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!--调用分类-->
+
+                    <!--调用图文分类-->
+                    <div class="panel panel-default slider-item">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-toggle="collapse" data-parent="#column" href="#column3">调用图文分类</a>
+                            </h4>
+                        </div>
+                        <div id="column3" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <form role="form" method="post" action="<?php echo U('column_add'); ?>">
+                                    <div class="form-group">
+                                        <label>标题：</label>
+                                        <input type="text" name="title" class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>分类ID：</label>
+                                        <input type="text" name="content" class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>数量限制：</label>
+                                        <input type="text" name="length" class="form-control" value="10" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="hidden" name="type" value="3" />
+                                        <button class="btn btn-primary" type="submit">新增</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!--调用图文分类-->
+
+
+                    <!--自定义内容-->
+                    <div class="panel panel-default slider-item">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-toggle="collapse" data-parent="#column" href="#column4">自定义栏目</a>
+                            </h4>
+                        </div>
+                        <div id="column4" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <form role="form" method="post" action="<?php echo U('column_add'); ?>">
+                                    <div class="form-group">
+                                        <label>标题：</label>
+                                        <input type="text" name="title" class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>内容：</label>
+                                        <textarea name="content" class="form-control"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="hidden" name="type" value="4" />
+                                        <input type="hidden" name="length" value="1" />
+                                        <button class="btn btn-primary" type="submit">新增</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!--自定义内容-->
+
+                </div>
+
+            </div>
+            <!--新增小栏目-->
+
+            <!--编辑小栏目-->
+            <div class="col-sm-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading">编辑小栏目(可拖拽顺序)</div>
+                    <form role="form" method="post" action="<?php echo U('column_edit'); ?>">
+                        <div class="panel-body">
+
+                            <?php if(!empty($options['home_column'])): ?>
+                            <div class="panel-group accordion" id="column_edit">
+
+                                <!--单个元素-->
+                                <?php foreach($options['home_column'] as $key1 => $column): ?>
+                                <div class="panel panel-default slider-item">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-toggle="collapse" data-parent="#column_edit" href="#column_edit<?php echo $key1; ?>">
+                                                <i class="glyphicon glyphicon-edit"></i><?php echo empty($column['title'])?'无标题':$column['title']; ?>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div <?php echo 'id="column_edit'.$key1.'"'; ?> class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <!--编辑表单-->
+                                            <div class="form-group">
+                                                <label>标题：</label>
+                                                <input type="text" name="title[]" class="form-control" value="<?php echo $column['title']; ?>" />
+                                            </div>
+                                            <?php if($column['type']==4): ?>
+                                            <div class="form-group">
+                                                <label>内容：</label>
+                                                <textarea name="content[]" class="form-control"><?php echo $column['content']; ?></textarea>
+                                                <input type="hidden" name="length[]" value="1" />
+                                            </div>
+                                            <?php else: ?>
+                                            <div class="form-group">
+                                                <label><?php echo $column['type']==1?'文章':'分类'; ?>ID：</label>
+                                                <input type="text" name="content[]" class="form-control" value="<?php echo $column['content']; ?>" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label><?php echo $column['type']==1?'内容长度':'数量限制'; ?>：</label>
+                                                <input type="text" name="length[]" class="form-control" value="<?php echo $column['length']; ?>" />
+                                            </div>
+                                            <?php endif; ?>
+                                            <div class="form-group">
+                                                <input type="hidden" name="type[]" value="<?php echo $column['type']; ?>" />
+                                                <button class="btn btn-danger slider-delete" type="button">删除</button>
+                                            </div>
+                                            <!--编辑表单-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php endforeach; ?>
+
+                                <!--单个元素-->
+                            </div>
+                            <?php else: ?>暂无！
+                            <?php endif; ?>
+
+                        </div>
+                        <div class="panel-footer">
+                            <button class="btn btn-primary" type="submit">保存</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--编辑小栏目-->
+        </div>
+    </div>
+    <!--小栏目配置-->
+    
+    
+    
+    
+    
+    <!--侧边栏配置-->
+    <div class="panel panel-default" id="section4">
+        <div class="panel-heading">侧边栏配置</div>
+        <div class="panel-body">
+
+            <!--新增侧边栏-->
+            <div class="col-sm-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">新增</div>
+                    <div class="panel-body">
+                        <form role="form" method="post" action="<?php echo U('sidebar_add'); ?>">
+                            <div class="form-group">
+                                <label>标题：</label>
+                                <input type="text" name="title" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label>内容：</label>
+                                <textarea name="content" class="form-control"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit">新增</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--新增侧边栏-->
+
+            <!--编辑侧边栏-->
+            <div class="col-sm-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading">编辑(可拖拽顺序)</div>
+                    <form role="form" method="post" action="<?php echo U('sidebar_edit'); ?>">
+                        <div class="panel-body">
+
+                            <?php if(!empty($options['sidebar'])): ?>
+                            <div class="panel-group accordion" id="sidebar">
+
+                                <!--单个元素-->
+                                <?php foreach($options['sidebar'] as $key => $sidebar): ?>
+                                <div class="panel panel-default slider-item">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-toggle="collapse" data-parent="#sidebar" href="#sidebar<?php echo $key; ?>">
+                                                <i class="glyphicon glyphicon-edit"></i><?php echo $sidebar['title']; ?>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div <?php echo 'id="sidebar'.$key.'"'; ?> class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <!--编辑表单-->
+                                            <div class="form-group">
+                                                <label>标题：</label>
+                                                <input type="text" name="title[]" class="form-control" value="<?php echo $sidebar['title']; ?>" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>描述：</label>
+                                                <textarea name="content[]" class="form-control"><?php echo $sidebar['content']; ?></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <button class="btn btn-danger slider-delete" type="button">删除</button>
+                                            </div>
+                                            <!--编辑表单-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php endforeach; ?>
+
+                                <!--单个元素-->
+                            </div>
+                            <?php else: ?>暂无！
+                            <?php endif; ?>
+
+                        </div>
+                        <div class="panel-footer">
+                            <button class="btn btn-primary" type="submit">保存</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--编辑侧边栏-->
+        </div>
+    </div>
+    <!--侧边栏配置-->
+    
+    
+    
+    <!--主题配置-->
+    <div class="panel panel-default" id="section6">
+        <div class="panel-heading">主题配置</div>
+        <div class="panel-body">
+
+            <!--更换主题-->
+            <div class="col-sm-4">
+                <form role="form" method="post" action="<?php echo U('theme_change'); ?>">
+                    <div class="form-group">
+                        <label>选择主题：</label>
+                        <select name="theme_default" class="form-control">
+                            <?php foreach($themes as $theme): ?>
+                            <option value="<?php echo $theme?>" <?php if($theme==$options['theme_default']){echo 'selected="selected"';}?>><?php echo $theme?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="submit">保存</button>
+                    </div>
+                </form>
+            </div>
+            <!--更换主题-->
+
+            <!--编辑主题-->
+<!--            <div class="col-sm-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><?php echo $options['theme_default']; ?></div>
+                    <div class="panel-body">
+                        <form role="form" method="post" action="<?php echo U('theme_color'); ?>">
+                            <div class="form-group">
+                                <label>配色方案：</label>
+                                <select name="theme_default" class="form-control">
+                                    <?php foreach($colors as $color): ?>
+                                    <option value="<?php echo $color?>" <?php if($theme==$options['theme_default']){echo 'selected="selected"';}?>><?php echo $color?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit">保存</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>-->
+            <!--编辑主题-->
+        </div>
+    </div>
+    <!--主题配置-->
+
+
+
+
+</div>
+
+
+
+<link rel="stylesheet" type="text/css" media="screen" href="__PUBLIC__/editor/themes/default/default.css">
+<script charset="utf-8" src="__PUBLIC__/editor/kindeditor-min.js"></script>
+<script charset="utf-8" src="__PUBLIC__/editor/lang/zh_CN.js"></script>
+<script type="text/javascript" src="http://cdn.staticfile.org/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script>
+    $(function() {
+        var editor = KindEditor.editor({
+            allowFileManager: true
+        });
+        $(".thumb-button").on('click', function() {
+            var thumb_input = $(this).parents('.input-group').find('.thumb-input');
+            editor.loadPlugin('image', function() {
+                editor.plugin.imageDialog({
+                    imageUrl: thumb_input.val(),
+                    clickFn: function(url, title, width, height, border, align) {
+                        thumb_input.val(url);
+                        editor.hideDialog();
+                    }
+                });
+            });
+        });
+        $(".accordion").sortable();
+        $(".slider-delete").on("click", function() {
+            $(this).parents(".slider-item").remove();
+        });
+    });
+</script>
+            </div>
+
+<include file="Public:footer" />

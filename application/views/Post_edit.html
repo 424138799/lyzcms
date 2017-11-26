@@ -1,0 +1,93 @@
+<?php $this->load->view('Public_header.html');?>
+
+            <div class="row">
+                <form role="form" action="<?php echo site_url('/Post/edit');?>" method="post">
+                    <div class="col-sm-8">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">标题</span>
+                                        <input type="text" class="form-control" name="title" value="<?php echo $the_post['title']; ?>" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <textarea id="content-editor" class="form-control" name="content" placeholder="文章内容！"><?php echo $the_post['content']; ?></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <style type="text/css">
+                                    input::-webkit-outer-spin-button,
+                                    input::-webkit-inner-spin-button {
+                                      -webkit-appearance: none;
+                                    }
+                                    input[type="number"]{
+                                      -moz-appearance: textfield;
+                                    }
+                                </style>
+                                <span class="input-group-addon">阅读量</span>
+                                <input type="number" class="form-control" name="read" value="<?php echo $the_post['read']; ?>" />
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">状态</span>
+                                <select class="form-control" name="status">
+                                    <option value="1" <?php if($the_post['status']==1){echo 'selected="selected"'; } ?>>发布</option>
+                                    <option value="0" <?php if($the_post['status']!=1){echo 'selected="selected"'; } ?>>草稿</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input id="thumb-input" class="form-control" type="text" name="thumb" value="<?php echo $the_post['thumb']; ?>" />
+                                <span class="input-group-btn">
+                                  <button id="thumb-button" class="btn btn-default" type="button">缩略图</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" name="id" value="<?php echo $the_post['id']; ?>" />
+                            <a class="btn btn-link" href="<?php echo site_url('Post/index'); ?>">取消</a>
+                            <button type="submit" class="btn btn-primary pull-right  col-sm-4 col-xs-4">确定</button>
+                        </div>
+                    </div>
+                </form>
+
+
+    <script charset="utf-8" src="<?php echo base_url();?>/pub/editor/kindeditor-min.js"></script>
+    <script charset="utf-8" src="<?php echo base_url();?>/pub/editor/lang/zh_CN.js"></script>
+    <script>
+        $(function() {
+            var editor = KindEditor.create('#content-editor', {
+                width: '100%',
+                minHeight: 300,
+                resizeType: 1,
+                themeType: 'simple',
+                allowFileManager: true
+            });
+            $("#thumb-button").click(function() {
+                editor.loadPlugin('image', function() {
+                    editor.plugin.imageDialog({
+                        imageUrl: $('#thumb-input').val(),
+                        clickFn: function(url, title, width, height, border, align) {
+                            $('#thumb-input').val(url);
+                            editor.hideDialog();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+            </div>
+
+<?php $this->load->view('Public_footer.html');?>

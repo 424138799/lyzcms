@@ -1,0 +1,46 @@
+<?php $this->load->view('Public_header.html');?>
+
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-12">
+                    <form role="form" action="<?php echo site_url('/Palette/addCate');?>" method="post">
+                        <div class="form-group">
+                            <label for="name">名称：</label>
+                            <input type="text" name="name" id="name" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="slug">别名：</label>
+                            <input type="text" name="slug" id="slug" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="p_id">父类：</label>
+                            <select name="p_id" id="p_id" class="form-control">
+                                <option value="0">作为顶级分类</option>
+                                <?php foreach($cates as $cate_p): ?>
+                                <option value="<?php echo $cate_p['id']; ?>"><?php echo $cate_p['name']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                       
+                        <div class="form-group">
+                            <label for="menu">前台显示：</label>
+                            <select name="menu" id="menu" class="form-control">
+                                <option value="0">不显示到前台</option>
+                                <option value="1">显示到前台</option>
+                            </select>
+                        </div>
+              
+                        <div class="form-group">
+                            <label for="sort">排序：</label>
+                            <input type="text" name="sort" id="sort" class="form-control" value="30" />
+                        </div>
+                        <div class="form-group">
+                            <a class="btn btn-link" href="<?php echo site_url('/Palette/cate'); ?>">返回</a>
+                            <button class="btn btn-primary pull-right" type="submit">确定</button>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+
+<?php $this->load->view('Public_footer.html');?>

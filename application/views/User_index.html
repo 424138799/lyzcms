@@ -1,0 +1,29 @@
+<?php $this->load->view('Public_header.html');?>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <?php if(count($users)): ?>
+                    <table class="table table-hover">
+                        <tr>
+                            <th>ID</th>
+                            <th>名称</th>
+                            <th>操作</th>
+                        </tr>
+                        <?php foreach($users as $user): ?>
+                        <tr>
+                            <td><?php echo $user['id']; ?></td>
+                            <td><?php echo $user['username']; ?></td>
+                            <td>
+                                <a href="<?php echo site_url('edit'); ?>" title="编辑"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a href="<?php echo site_url('delete'); ?>" title="删除" onclick="javascript:if(!confirm('确实要删除吗?')){return false;}"><span class="glyphicon glyphicon-remove"></span></a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </table>
+                    <?php else: ?>
+                    <h3>暂无信息！</h3>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+<?php $this->load->view('Public_footer.html');?>
