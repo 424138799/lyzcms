@@ -49,7 +49,7 @@ class Login extends CI_Controller {
 	//注销
 	function logout(){
 		session_start();
-		$_SESSION['userInfo'] = '';
+		unset($_SESSION['userInfo']);
 		session_write_close();
 		redirect('Login/index');
 

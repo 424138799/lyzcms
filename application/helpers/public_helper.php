@@ -28,7 +28,17 @@ function subtree($arr,$a = '',$id=0,$lev=1) {
     return $subs;
 }
 
+function get_option($name = '') {
+    $CI = &get_instance();
+    $sql = "select value from i_option where name='$name'";
+    $query = $CI->db->query($sql);
+    $value = $query->row_array();
 
+    if ($value) {
+        return $value['value'];
+    }
+    return NULL;
+}
 
 
  ?>

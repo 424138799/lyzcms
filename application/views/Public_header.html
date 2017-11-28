@@ -27,10 +27,10 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li class="<?php echo $menu == 'Banner' ? 'dropdown active' : 'dropdown'; ?>">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banner管理 <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banner、icon管理 <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="<?php echo site_url('Post/index'); ?>">查看</a></li>
-                                <li><a href="<?php echo site_url('Post/add'); ?>">新增</a></li>
+                                <li><a href="<?php echo site_url('Post/bannerList'); ?>">查看banner</a></li>
+                                <li><a href="<?php echo site_url('Post/iconList/1'); ?>">查看icon</a></li>
                             </ul>
                         </li>
                         <li class="<?php echo $menu == 'Post' ? 'dropdown active' : 'dropdown'; ?>">
@@ -44,15 +44,15 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">调色板 <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="<?php echo site_url('Palette/cate'); ?>">类别查看</a></li>
-                                <li><a href="<?php echo site_url('Palette/index'); ?>">查看</a></li>
-                                <li><a href="<?php echo site_url('Palette/add'); ?>">新增</a></li>
+                                <li><a href="<?php echo site_url('Palette/index'); ?>">查看调色板列表</a></li>
+                                <li><a href="<?php echo site_url('Palette/paletteAdd'); ?>">新增调色板</a></li>
                             </ul>
                         </li>
                         <li class="<?php echo $menu == 'User' ? 'dropdown active' : 'dropdown'; ?>">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">管理用户 <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="<?php echo site_url('User/index'); ?>">查看</a></li>
-                                <li><a href="<?php echo site_url('User/add'); ?>">新增</a></li>
+                                <li><a href="<?php echo site_url('User/userAdd'); ?>">新增</a></li>
                             </ul>
                         </li>
                         <li class="<?php echo $menu == '' ? 'dropdown active' : 'dropdown'; ?>">

@@ -1,0 +1,56 @@
+<?php $this->load->view('Public_header.html');?>
+
+            <div class="row">
+
+                <div class="col-xs-12">
+                    <table class="table table-hover">
+                        <tr>
+                            <td colspan="6">
+                                <form class="form-inline" action="<?php echo site_url('/Palette/search');?>" method="get" role="form">
+                                    <div class="form-group">
+                                        <select name="c_id" class="form-control">
+                                            <option value="">所有分类</option>
+                                            <?php foreach($cates as $cate): ?>
+                                            <option value="<?php echo $cate['id']; ?>"><?php echo $cate['name']; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">确定</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>ID</th>
+                            <th>分类名</th>
+                            <th>色号</th>
+                            <th>缩略图</th>
+                            <th>创建时间</th>
+                            <th>操作</th>
+                        </tr>
+                        <?php if(count($lists)): ?>
+                        <?php foreach($lists as $post): ?>
+                        <tr>
+                            <td><?php echo $post['id']; ?></td>
+                            <td><?php echo get_cate_name($post['cateId']); ?></td>
+                            <td><?php echo $post['colorNum']; ?></td>
+                            <td style="width: 20%;height: 100px;"><img src="<?php echo $post['pic']?>" style="width: 100%;height: 100%;"></td>                            
+                            <td><?php echo date('Y-m-d H:i',$post['create_time']); ?></td>
+                            <td>
+                                <a href="<?php echo site_url('/Palette/paletteEdit/').$post['id']; ?>" title="编辑"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a href="<?php echo site_url('/Palette/paletteDel/').$post['id']; ?>" title="删除" onclick="javascript:if(!confirm('确实要删除吗?')){return false;}"><span class="glyphicon glyphicon-remove"></span></a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                        <?php else: ?>
+                        <tr>
+                            <td colspan="7" class="text-center">暂无信息！</td>
+                        </tr>
+                        <?php endif; ?>
+                        <tr>
+                            <td colspan="7" class="text-center"><?php echo $pages; ?></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+<?php $this->load->view('Public_footer.html');?>

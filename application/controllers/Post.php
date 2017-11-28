@@ -7,6 +7,7 @@ require_once(APPPATH.'controllers/Public_Controller.php');
 class Post extends Public_Controller
 {
 	public $news = "i_post";	
+	public $banner = "i_banner";	
 	function __construct()
 	{
 		parent::__construct();
@@ -100,12 +101,12 @@ class Post extends Public_Controller
 				$data['message'] = '操作成功！';
 				$data['jumpUrl'] = site_url('/Post/index');
 				$data['waitSecond'] = '3';
-				$this->load->view('error.html',$data);
+				$this->load->view('Public_jump.html',$data);
 			}else{
 				$data['error'] = '操作失败！';
 				$data['jumpUrl'] = site_url('/Post/index');
 				$data['waitSecond'] = '3';
-				$this->load->view('error.html',$data);
+				$this->load->view('Public_jump.html',$data);
 			}
 		}else{
 			$id = intval($this->uri->segment('3'));
@@ -113,7 +114,7 @@ class Post extends Public_Controller
 				$data['error'] = '请求错误！';
 				$data['jumpUrl'] = site_url('/Post/index');
 				$data['waitSecond'] = '3';
-				$this->load->view('error.html',$data);
+				$this->load->view('Public_jump.html',$data);
 			}else{
 				//获取文章详情
 				$data['the_post'] = $this->Public_model->select_info($this->news,'id',$id);
@@ -131,22 +132,183 @@ class Post extends Public_Controller
 			$data['error'] = '请求错误！';
 			$data['jumpUrl'] = site_url('/Post/index');
 			$data['waitSecond'] = '3';
-			$this->load->view('error.html',$data);
+			$this->load->view('Public_jump.html',$data);
 		}else{
 			if($this->Public_model->delete($this->news,"id",$id)){
 				$data['message'] = '操作成功！';
 				$data['jumpUrl'] = site_url('/Post/index');
 				$data['waitSecond'] = '3';
-				$this->load->view('error.html',$data);
+				$this->load->view('Public_jump.html',$data);
 			}else{
 				$data['error'] = '操作失败！';
 				$data['jumpUrl'] = site_url('/Post/index');
 				$data['waitSecond'] = '3';
-				$this->load->view('error.html',$data);
+				$this->load->view('Public_jump.html',$data);
 			}
 			
 		}
 	}
+
+	//bannerlist
+	function bannerList(){
+		$data['banner'] = $this->Public_model->select($this->banner,'id','desc');
+
+		$data['menu'] = 'Banner';
+		$data['title'] = 'banner管理';
+		$this->load->view('bannerList.html',$data);
+	}
+	function bannerAdd(){
+		if($_POST){
+			$data = $this->input->post();
+			// $data['createtime'] = time();
+			if($this->Public_model->insert($this->banner,$data)){
+				$data['message'] = '操作成功！';
+				$data['jumpUrl'] = site_url('/Post/bannerList');
+				$data['waitSecond'] = '3';
+				$this->load->view('Public_jump.html',$data);
+				// echo "<script>alert('操作成功！');window.location.href='".site_url('/Post/bannerList')."'</script>";
+			}else{
+				$data['error'] = '操作失败';
+				$data['jumpUrl'] = site_url('/Post/bannerList');
+				$data['waitSecond'] = '3';
+				$this->load->view('Public_jump.html',$data);			}
+
+		}else{
+			$data['menu'] = 'Banner';
+			$data['title'] = "新增banner";
+			$this->load->view('banner_add.html',$data);
+		}
+	}
+	function bannerEdit(){
+		if($_POST){
+			$data = $this->input->post();
+			// $data['updatetime'] = time();
+			if($this->Public_model->edit($this->banner,'id',$data['id'],$data)){
+				$data['message'] = '操作成功！';
+				$data['jumpUrl'] = site_url('/Post/bannerList');
+				$data['waitSecond'] = '3';
+				$this->load->view('Public_jump.html',$data);
+			}else{
+				$data['error'] = '操作失败！';
+				$data['jumpUrl'] = site_url('/Post/bannerList');
+				$data['waitSecond'] = '3';
+				$this->load->view('Public_jump.html',$data);
+			}
+		}else{
+
+			$id = intval($this->uri->segment('3'));
+			if($id == '0'){
+				$data['error'] = '请求错误！';
+				$data['jumpUrl'] = site_url('/Post/bannerlist');
+				$data['waitSecond'] = '3';
+				$this->load->view('Public_jump.html',$data);
+			}else{
+				//获取文章详情
+				$data['the_post'] = $this->Public_model->select_info($this->banner,'id',$id);
+				$data['menu'] = 'Banner';
+				$data['title'] = "编辑banner";
+				$this->load->view('banner_edit.html',$data);
+			}
+		}
+	}
+	function bannerDel(){
+		$id = intval($this->uri->segment('3'));
+		if($id == '0'){
+			$data['error'] = '请求错误！';
+			$data['jumpUrl'] = site_url('/Post/bannerlist');
+			$data['waitSecond'] = '3';
+			$this->load->view('Public_jump.html',$data);
+		}else{
+			if($this->Public_model->delete($this->banner,"id",$id)){
+				$data['message'] = '操作成功！';
+				$data['jumpUrl'] = site_url('/Post/bannerlist');
+				$data['waitSecond'] = '3';
+				$this->load->view('Public_jump.html',$data);
+			}else{
+				$data['error'] = '操作失败！';
+				$data['jumpUrl'] = site_url('/Post/bannerlist');
+				$data['waitSecond'] = '3';
+				$this->load->view('Public_jump.html',$data);
+			}
+		}
+	}
+	//icon 管理
+	function iconList(){
+		$id = intval($this->uri->segment(3));
+		if($id == '0'){
+			$data['error'] = '请求错误！';
+			$data['jumpUrl'] = site_url('/Home/index');
+			$data['waitSecond'] = '3';
+			$this->load->view('Public_jump.html',$data);
+		}else{
+			//1顾客首页icon。2工人首页icon 3导购首页icon
+			if($id == '1'){
+				$data['name'] = "home_icon";
+				$data['icon'] =json_decode(get_option('home_icon'),true);
+			}elseif($id == '2'){
+				$data['name'] = "worker_icon";
+				$data['icon'] =json_decode(get_option('worker_icon'),true);
+			}elseif($id == '3'){
+				$data['name']= 'guide_icon';
+				$data['icon'] =json_decode(get_option('guide_icon'),true);
+			}
+			// $data['icon'] =json_decode(get_option('home_icon'),true);
+			// var_dump($data);
+			$data['menu'] = 'Banner';
+			$data['title'] = "icon管理";
+			$this->load->view('iconList.html',$data);
+		}
+	}
+
+	//修改icon
+	function iconEdit(){
+		if($_POST){
+			$data = $this->input->post();
+			//var_dump($data);
+			$icon =json_decode(get_option($data['type']),true);
+			foreach ($icon as $key => $value) {
+			  	if($value['id'] == $data['id']){
+			  		$icon[$key]['name'] =$data['name'];
+			  		$icon[$key]['pic'] =$data['pic'];
+			  		$icon[$key]['url'] =$data['url'];
+			  	}
+			}
+			$arr['value'] = json_encode($icon);
+			if($this->Public_model->edit('i_option','name',$data['type'],$arr)){
+				$data['message'] = '操作成功！';
+				$data['jumpUrl'] = site_url('/Post/iconList/1');
+				$data['waitSecond'] = '3';
+				$this->load->view('Public_jump.html',$data);
+			}else{
+				$data['error'] = '操作失败！';
+				$data['jumpUrl'] = site_url('/Post/iconList/1');
+				$data['waitSecond'] = '3';
+				$this->load->view('Public_jump.html',$data);
+			}
+
+
+		}else{
+			$id = intval($this->uri->segment(4));
+			$type = $this->uri->segment(3);
+			if($id == '0' || empty($type)){
+				$data['error'] = '请求错误！';
+				$data['jumpUrl'] = site_url('/Home/index');
+				$data['waitSecond'] = '3';
+				$this->load->view('Public_jump.html',$data);
+			}else{
+				$icon =json_decode(get_option($type),true);
+				$data['the_post'] = $icon[$id];
+				$data['type'] = $type;
+	 			// var_dump($data);
+				$data['menu'] = 'Banner';
+				$data['title'] = "icon管理";
+				$this->load->view('icon_edit.html',$data);
+			}
+		}
+	}
+
+
+
 
 }
 

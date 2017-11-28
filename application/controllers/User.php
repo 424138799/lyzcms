@@ -26,6 +26,18 @@ class User extends Public_Controller
 
 	}
 
+	//
+	function userAdd(){
+		if($_POST){
+
+		}else{
+
+			$data['menu'] = 'User';
+			$data['title'] = "新增用户";
+			$this->load->view('User_add.html',$data);
+		}
+	}
+
 
 
 
