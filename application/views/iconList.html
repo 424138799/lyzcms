@@ -7,7 +7,8 @@
                         <tr>
                             <td colspan=""><a href="<?php echo site_url('/Post/iconList/1');?>" class="btn <?php if($name =='home_icon'){echo 'btn-primary';}?>" style="border-color: #357ebd;">顾客首页ICON</a></td>
                             <td colspan=""><a href="<?php echo site_url('/Post/iconList/2');?>" class="btn <?php if($name =='worker_icon'){echo 'btn-primary';}?>" style="border-color: #357ebd;">工人首页ICON</a></td>
-                            <td colspan="3"><a href="<?php echo site_url('/Post/iconList/3');?>" class="btn <?php if($name =='guide_icon'){echo 'btn-primary';}?>" style="border-color: #357ebd;">导购首页ICON</a></td>
+                            <td colspan=""><a href="<?php echo site_url('/Post/iconList/3');?>" class="btn <?php if($name =='guide_icon'){echo 'btn-primary';}?>" style="border-color: #357ebd;">导购首页ICON</a></td>
+                            <td colspan="2"><a href="<?php echo site_url('/Post/iconList/4');?>" class="btn <?php if($name =='goods_icon'){echo 'btn-primary';}?>" style="border-color: #357ebd;">产品列别ICON</a></td>
                         </tr>
                         <tr>
 
@@ -17,10 +18,10 @@
                             <th>ID</th>
                             <th>名称</th>
                             <th>icon图片</th>
-                            <th>地址</th>
+                            <!-- <th>地址</th> -->
                             <th>操作</th>
                         </tr>
-                        <?php foreach($icon as $cate): ?>
+                        <?php foreach($icon as $key=>$cate): ?>
                         <tr>
 
                             <td><?php echo $cate['id']; ?></td>
@@ -28,7 +29,7 @@
                            
                             <td><?php echo $cate['name']; ?></td>
                             <td style="width: 20%;height: 100px;"><img src="<?php echo $cate['pic']?>" style="width: 100%;height: 100%;"></td>
-                            <td><?php echo $cate['url'];?></td>
+                            <!-- <td><?php echo $cate['url'];?></td> -->
                             <td>
                                 <a href="<?php echo site_url('/Post/iconEdit/').$name.'/'.$cate['id']; ?>" title="编辑"><span class="glyphicon glyphicon-edit"></span></a>
                                 <!-- <a href="<?php echo site_url('/Post/bannerDel/').$cate['id']; ?>" title="删除" onclick="javascript:if(!confirm('确实要删除吗?')){return false;}"><span class="glyphicon glyphicon-remove"></span></a> -->

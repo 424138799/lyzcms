@@ -51,6 +51,23 @@ class Public_model extends CI_Model
 	function delete($table,$id,$where){
 		return $this->db->where($id,$where)->delete($table);
 	}
+
+	//返回商学院条数
+	function schoolNum($table){
+		$sql = "SELECT count(*) FROM $table";
+        $query = $this->db->query($sql);
+        return $query->row_array();
+	}
+	function paletteNum($table,$cateid){
+		$sql = "SELECT count(*) FROM $table where cateId='$cateid'";
+        $query = $this->db->query($sql);
+        return $query->row_array();
+	}
+
+
+
+
+
 }
 
 

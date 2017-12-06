@@ -14,8 +14,8 @@
                             <td><?php echo $user['id']; ?></td>
                             <td><?php echo $user['username']; ?></td>
                             <td>
-                                <a href="<?php echo site_url('edit'); ?>" title="编辑"><span class="glyphicon glyphicon-edit"></span></a>
-                                <a href="<?php echo site_url('delete'); ?>" title="删除" onclick="javascript:if(!confirm('确实要删除吗?')){return false;}"><span class="glyphicon glyphicon-remove"></span></a>
+                                <a href="<?php echo site_url('User/userEdit/').$user['id']; ?>" title="编辑"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a href="<?php echo site_url('User/delete/').$user['id']; ?>" title="删除" onclick="javascript:if(!confirm('确实要删除吗?')){return false;}"><span class="glyphicon glyphicon-remove"></span></a>
                             </td>
                         </tr>
                         <?php endforeach; ?>

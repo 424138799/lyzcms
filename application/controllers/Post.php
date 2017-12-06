@@ -251,6 +251,9 @@ class Post extends Public_Controller
 			}elseif($id == '3'){
 				$data['name']= 'guide_icon';
 				$data['icon'] =json_decode(get_option('guide_icon'),true);
+			}elseif($id == '4'){
+				$data['name']= 'goods_icon';
+				$data['icon'] =json_decode(get_option('goods_icon'),true);
 			}
 			// $data['icon'] =json_decode(get_option('home_icon'),true);
 			// var_dump($data);
@@ -270,7 +273,7 @@ class Post extends Public_Controller
 			  	if($value['id'] == $data['id']){
 			  		$icon[$key]['name'] =$data['name'];
 			  		$icon[$key]['pic'] =$data['pic'];
-			  		$icon[$key]['url'] =$data['url'];
+			  		// $icon[$key]['url'] =$data['url'];
 			  	}
 			}
 			$arr['value'] = json_encode($icon);
@@ -297,7 +300,7 @@ class Post extends Public_Controller
 				$this->load->view('Public_jump.html',$data);
 			}else{
 				$icon =json_decode(get_option($type),true);
-				$data['the_post'] = $icon[$id];
+				$data['the_post'] = $icon[$id-1];
 				$data['type'] = $type;
 	 			// var_dump($data);
 				$data['menu'] = 'Banner';
