@@ -8,6 +8,7 @@ class Post extends Public_Controller
 {
 	public $news = "i_post";	
 	public $banner = "i_banner";	
+	public $slogan = "i_slogan";	
 	function __construct()
 	{
 		parent::__construct();
@@ -67,7 +68,7 @@ class Post extends Public_Controller
         $listpage =  $this->Public_model->select_page($this->news,$current_page,$config['per_page'],'createtime','desc');
         $this->pagination->initialize($config);
         //获取系统公告
-
+      
         $data = array('lists'=>$listpage,'pages' => $this->pagination->create_links(),'menu'=>'Post','title'=>'乐易装商学院');
 		//获取我的公众号
 
@@ -152,6 +153,8 @@ class Post extends Public_Controller
 	//bannerlist
 	function bannerList(){
 		$data['banner'] = $this->Public_model->select($this->banner,'id','desc');
+		  $city =json_decode(curl_post('http://119.23.149.7:9999/app/city/list',''),true);
+		  $data['city'] = $city['content'];
 
 		$data['menu'] = 'Banner';
 		$data['title'] = 'banner管理';
@@ -174,6 +177,9 @@ class Post extends Public_Controller
 				$this->load->view('Public_jump.html',$data);			}
 
 		}else{
+			//获取城市
+            $city =json_decode(curl_post('http://119.23.149.7:9999/app/city/list',''),true);
+            $data['city'] = $city['content'];
 			$data['menu'] = 'Banner';
 			$data['title'] = "新增banner";
 			$this->load->view('banner_add.html',$data);
@@ -203,7 +209,9 @@ class Post extends Public_Controller
 				$data['waitSecond'] = '3';
 				$this->load->view('Public_jump.html',$data);
 			}else{
-				//获取文章详情
+ 				$city =json_decode(curl_post('http://119.23.149.7:9999/app/city/list',''),true);
+            	$data['city'] = $city['content'];			
+            	//获取文章详情
 				$data['the_post'] = $this->Public_model->select_info($this->banner,'id',$id);
 				$data['menu'] = 'Banner';
 				$data['title'] = "编辑banner";
@@ -241,7 +249,7 @@ class Post extends Public_Controller
 			$data['waitSecond'] = '3';
 			$this->load->view('Public_jump.html',$data);
 		}else{
-			//1顾客首页icon。2工人首页icon 3导购首页icon
+			//1顾客首页icon。2工人首页icon 3导购首页icon 4
 			if($id == '1'){
 				$data['name'] = "home_icon";
 				$data['icon'] =json_decode(get_option('home_icon'),true);
@@ -307,6 +315,104 @@ class Post extends Public_Controller
 				$data['title'] = "icon管理";
 				$this->load->view('icon_edit.html',$data);
 			}
+		}
+	}
+
+	//标语
+	function slogan(){
+		$data['slogan']=$this->Public_model->select($this->slogan,'id','desc');
+	 			//获取城市
+        $city =json_decode(curl_post('http://119.23.149.7:9999/app/city/list',''),true);
+        $data['city'] = $city['content'];
+		$data['menu'] = 'Banner';
+		$data['title'] = "标语";
+		$this->load->view('Slogan_index.html',$data);
+	}
+
+	function sloganAdd(){
+		if($_POST){
+			$data = $this->input->post();
+			$data['create_time']=date('Y-m-d H:i:s',time());
+
+			if($this->Public_model->insert($this->slogan,$data)){
+				$data['message'] = '新增成功！';
+				$data['jumpUrl'] = site_url('/Post/slogan');
+				$data['waitSecond'] = '3';
+				$this->load->view('Public_jump.html',$data);
+			}else{
+				$data['error'] = '新增失败！';
+				$data['jumpUrl'] = site_url('/Post/sloganAdd');
+				$data['waitSecond'] = '3';
+				$this->load->view('Public_jump.html',$data);
+			}
+		}else{
+
+			$city =json_decode(curl_post('http://119.23.149.7:9999/app/city/list',''),true);
+	        $data['city'] = $city['content'];
+			$data['menu'] = 'Banner';
+			$data['title'] = "新增标语";
+			$this->load->view('Slogan_add.html',$data);
+		}
+	}
+	function sloganEdit(){
+		if($_POST){
+			$data = $this->input->post();
+			// $data['create_time']=date('Y-m-d H:i:s',time());
+
+			if($this->Public_model->edit($this->slogan,'id',$data['id'],$data)){
+				$data['message'] = '编辑成功！';
+				$data['jumpUrl'] = site_url('/Post/slogan');
+				$data['waitSecond'] = '3';
+				$this->load->view('Public_jump.html',$data);
+			}else{
+				$data['error'] = '编辑失败！';
+				$data['jumpUrl'] = site_url('/Post/sloganEdit/').$data['id'];
+				$data['waitSecond'] = '3';
+				$this->load->view('Public_jump.html',$data);
+			}
+		}else{
+			$id = intval($this->uri->segment('3'));
+			if($id == '0'){
+				$data['error'] = '请求错误！';
+				$data['jumpUrl'] = site_url('/Post/slogan');
+				$data['waitSecond'] = '3';
+				$this->load->view('Public_jump.html',$data);
+			}else{
+ 				$city =json_decode(curl_post('http://119.23.149.7:9999/app/city/list',''),true);
+            	$data['city'] = $city['content'];			
+            	//获取文章详情
+				$data['the_post'] = $this->Public_model->select_info($this->slogan,'id',$id);
+				
+				$data['menu'] = 'Banner';
+				$data['title'] = "修改标语";
+				$this->load->view('Slogan_edit.html',$data);
+			}
+			
+		}
+	}
+
+	//
+	function sloganDel(){
+		$id = intval($this->uri->segment('3'));
+		if($id == '0'){
+			$data['error'] = '请求错误！';
+			$data['jumpUrl'] = site_url('/Post/slogan');
+			$data['waitSecond'] = '3';
+			$this->load->view('Public_jump.html',$data);
+		}else{
+			
+			if($this->Public_model->delete($this->slogan,'id',$id)){
+				$data['message'] = '删除成功！';
+				$data['jumpUrl'] = site_url('/Post/slogan');
+				$data['waitSecond'] = '3';
+				$this->load->view('Public_jump.html',$data);
+			}else{
+				$data['error'] = '删除失败！';
+				$data['jumpUrl'] = site_url('/Post/slogan');
+				$data['waitSecond'] = '3';
+				$this->load->view('Public_jump.html',$data);
+			}
+			
 		}
 	}
 

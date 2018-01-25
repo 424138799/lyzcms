@@ -27,10 +27,11 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li class="<?php echo $menu == 'Banner' ? 'dropdown active' : 'dropdown'; ?>">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banner、icon管理 <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Banner、icon管理、标语 <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="<?php echo site_url('Post/bannerList'); ?>">查看banner</a></li>
                                 <li><a href="<?php echo site_url('Post/iconList/1'); ?>">查看icon</a></li>
+                                <li><a href="<?php echo site_url('Post/slogan'); ?>">查看标语</a></li>
                             </ul>
                         </li>
                         <li class="<?php echo $menu == 'Post' ? 'dropdown active' : 'dropdown'; ?>">
@@ -55,15 +56,15 @@
                                 <li><a href="<?php echo site_url('User/userAdd'); ?>">新增</a></li>
                             </ul>
                         </li>
-                        <li class="<?php echo $menu == '' ? 'dropdown active' : 'dropdown'; ?>">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">消息推送 <b class="caret"></b></a>
+                       <li class="<?php echo $menu == 'Activity' ? 'dropdown active' : 'dropdown'; ?>">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">最新活动 <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="<?php echo site_url('User/index'); ?>">查看</a></li>
-                                <li><a href="<?php echo site_url('User/add'); ?>">新增</a></li>
+                                <li><a href="<?php echo site_url('Home/activityList'); ?>">查看</a></li>
+                                <li><a href="<?php echo site_url('Home/addActivity'); ?>">新增</a></li>
                             </ul>
                         </li>
-                        <li class="<?php echo $menu == '' ? 'dropdown active' : 'dropdown'; ?>">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">APP版本 </a>
+                        <li class="<?php echo $menu == 'appversion' ? 'dropdown active' : 'dropdown'; ?>">
+                            <a href="<?php echo site_url('Home/App_edition');?>" >APP版本 </a>
                            
                         </li>
                       <!--   <li class="<?php echo $menu == 'Option' ? 'dropdown active' : 'dropdown'; ?>">

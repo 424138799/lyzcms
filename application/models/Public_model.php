@@ -63,6 +63,11 @@ class Public_model extends CI_Model
         $query = $this->db->query($sql);
         return $query->row_array();
 	}
+	//返回最新的数据
+	function selectLimit($table,$where,$type,$limit,$sort){
+		$query = $this->db->where($where,$type)->order_by($sort,'desc')->limit($limit,'0')->get($table);
+		return $query->row_array();
+	}
 
 
 

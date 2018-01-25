@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => 'root',
-	'database' => 'lyzcms',
+	'hostname' => '120.78.73.217',
+	'username' => 'MYSQLlyzCMS',
+	'password' => 'MYSQLlyzCMS',
+	'database' => 'MYSQLlyzCMS',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => 'i_',
 	'pconnect' => FALSE,

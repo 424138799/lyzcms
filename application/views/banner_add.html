@@ -16,6 +16,14 @@
                                 </span>
                             </div>
                         </div>
+                         <div class="form-group">
+                            <label for="name"> 城市：</label>
+                            <select name="city" id="city" class="form-control">
+                                <?php foreach($city as $v):?>
+                                <option value="<?php echo $v['cityId'];?>"><?php echo $v['cityName'];?></option>
+                                <?php endforeach;?>
+                            </select>
+                        </div>
                        
                        
                         <div class="form-group">
@@ -29,6 +37,10 @@
                         <div class="form-group">
                             <label for="url">url：</label>
                             <input type="text" name="url" id="url" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="sort">排序：</label>
+                            <input type="text" name="sort" id="sort" value="99999" class="form-control" />
                         </div>
                         <div class="form-group">
                             <a class="btn btn-link" href="<?php echo site_url('/Post/bannerList'); ?>">返回</a>

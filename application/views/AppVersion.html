@@ -1,0 +1,48 @@
+<?php $this->load->view('Public_header.html');?>
+
+            <div class="row">
+
+                <div class="col-xs-12">
+                    <table class="table table-hover">
+                        <tr>
+                            <td colspan="7">
+                                <a href="<?php echo site_url('/Home/addVersion');?>" class="btn btn-primary">新增版本</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>ID</th>
+                            <th>APP平台</th>
+                            <th>版本号</th>
+                            <th>版本说明</th>
+                            <th>下载地址</th>
+                            <th>创建时间</th>
+                            <th>操作</th>
+                        </tr>
+                        <?php if(count($lists)): ?>
+                        <?php foreach($lists as $post): ?>
+                        <tr>
+                            <td><?php echo $post['id']; ?></td>
+                            <td><?php if($post['type'] == '1'){echo "Android";}else{echo "ios";}?></td>
+                            <td><?php echo $post['appversion']; ?></td>
+                            <td><?php echo $post['appInfo']; ?></td>
+                            <td><?php echo $post['appPath']; ?></td>
+                            <td><?php echo $post['create_time']; ?></td>
+                            <td>
+                                <a href="<?php echo site_url('/Home/editVersion/').$post['id']; ?>" title="编辑"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a href="<?php echo site_url('/Home/delVersion/').$post['id']; ?>" title="删除" onclick="javascript:if(!confirm('确实要删除吗?')){return false;}"><span class="glyphicon glyphicon-remove"></span></a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                        <?php else: ?>
+                        <tr>
+                            <td colspan="7" class="text-center">暂无信息！</td>
+                        </tr>
+                        <?php endif; ?>
+                        <tr>
+                            <td colspan="7" class="text-center"><?php echo $pages; ?></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+<?php $this->load->view('Public_footer.html');?>

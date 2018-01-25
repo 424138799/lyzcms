@@ -15,10 +15,7 @@ class ApiCms extends CI_Controller
 	{
 		parent::__construct();
 	}
-function base(){
-	$a = "WyJ0LmNuL1JqVlBTdjUiLCAieW1odi5jbiIsICJzZGsuY20vMTAiXQ==";
-	var_dump(base64_decode($a,true));
-}
+
 
 /**
 *    返回banner。请求参数：post 
@@ -32,14 +29,32 @@ function base(){
 	//返回banner
 	function bannerList(){
 		if($_POST){
-			$list = $this->Public_model->select($this->banner,'id','desc');
+			$city = $this->input->post('city');
+			$list = $this->Public_model->select_where($this->banner,'city',$city,'sort','asc');
+
 			if(!empty($list)){
-				echo json_encode($list);
+				$arr = array(
+					'code'=>'0',
+					'message'=>'成功！',
+					'banner'=>$list,
+				);
+				echo json_encode($arr);
 			}else{
-				echo "2";
+				$arr = array(
+					'code'=>'2',
+					'message'=>'请求数据失败！',
+					'banner'=>'',
+				);
+				echo json_encode($arr);
 			}
 		}else{
-			echo "3";
+			$arr = array(
+				'code'=>'2',
+				'message'=>'请求错误！',
+				'banner'=>'',
+			);
+			echo json_encode($arr);
+			
 		}
 	}
 /**
@@ -66,14 +81,34 @@ function base(){
 			}elseif($type == '3'){
 				$list =get_option('guide_icon');
 			}
+			$home = get_option('goods_icon');
+
 			//$list = $this->Public_model->select($this->banner,'id','desc');
 			if(!empty($list)){
-				echo $list;
+				$arr = array(
+					'code'=>'0',
+					'message'=>'成功！',
+					'icon'=>json_decode($list,true),
+					'cates'=>json_decode($home,true),
+				);
+				echo json_encode($arr);
 			}else{
-				echo "2";
+				$arr = array(
+					'code'=>'2',
+					'message'=>'请求数据失败！',
+					'icon'=>'',
+					'cates'=>'',
+				);
+				echo json_encode($arr);
 			}
 		}else{
-			echo "3";
+			$arr = array(
+				'code'=>'2',
+				'message'=>'请求错误！',
+				'icon'=>'',
+				'cates'=>'',
+			);
+			echo json_encode($arr);
 		}
 	}
 /**
@@ -90,23 +125,40 @@ function base(){
 	//返回商学院
 	function postSchool(){
 		if($_POST){
-			$page = $this->input->post('page') * 10;
+			
 			$size = $this->input->post('size');
+			$page = ($this->input->post('page')-1)*$size;
 
+		
 			//获取所有商学院文章
 			$listNum = $this->Public_model->schoolNum($this->post);
-			$list = $this->Public_model->select_page($this->post,$page,$size,'createtime','desc');
+			$list = $this->Public_model->select_where_page($this->post,'status','1',$page,$size,'createtime','desc');
+			
 			if(!empty($list)){
 				$arr = array(
+					'code'=>'0',
+					'message'=>'成功！',
 					'numPage' => round($listNum['count(*)']/$size),
 					'list' => $list,
 				);
 				echo json_encode($arr);
 			}else{
-				echo "2";
+				$arr = array(
+					'code'=>'2',
+					'message'=>'请求数据为空！',
+					'numPage' => '',
+					'list' => '',
+				);
+				echo json_encode($arr);
 			}
 		}else{
-			echo "3";
+			$arr = array(
+				'code'=>'2',
+				'message'=>'请求错误！',
+				'numPage' => '',
+				'list' => '',
+			);
+			echo json_encode($arr);
 		}
 	}
 
@@ -124,13 +176,30 @@ function base(){
 			//获取所有商学院文章
 			$list = $this->Public_model->select_info($this->post,'id',$id);
 			if(!empty($list)){
-				
-				echo json_encode($list);
+				$num = $list['read'] +'1';
+				$data['read'] = $num; 
+				$this->Public_model->edit($this->post,'id',$id,$data);
+				$arr = array(
+					'code'=>'0',
+					'message'=>'成功',
+					'content' => $list,
+				);
+				echo json_encode($arr);
 			}else{
-				echo "2";
+				$arr = array(
+					'code'=>'2',
+					'message'=>'请求数据为空！',
+					'content' => '',
+				);
+				echo json_encode($arr);
 			}
 		}else{
-			echo "3";
+			$arr = array(
+				'code'=>'2',
+				'message'=>'请求错误！',
+				'content' => '',
+			);
+			echo json_encode($arr);
 		}
 	}
 
@@ -166,12 +235,27 @@ function base(){
 				}
 			}
 			if(!empty($list)){
-				echo json_encode($list);
+				$arr = array(
+					'code'=>'0',
+					'message'=>'成功！',
+					'cate' => $list,
+				);
+				echo json_encode($arr);
 			}else{
-				echo "2";
+				$arr = array(
+					'code'=>'2',
+					'message'=>'请求数据为空！',
+					'cate' => '',
+				);
+				echo json_encode($arr);
 			}
 		}else{
-			echo "3";
+			$arr = array(
+				'code'=>'2',
+				'message'=>'请求错误！',
+				'cate' => '',
+			);
+			echo json_encode($arr);
 		}
 	}
 
@@ -211,6 +295,112 @@ function base(){
 		}
 	}
 
+
+/**
+*    返回APP更新 请求方式post  http://120.78.73.217:8090/index.php/ApiCms/appVersion
+*	 请求数据 type = 1安卓 2ios
+*
+*	
+*	 返回值：1操作成功 2请求数据失败。3请求错误  json
+*/
+	function appVersion(){
+		if($_POST){
+			$type = $this->input->post('type');
+			$list = $this->Public_model->selectLimit('i_edition','type',$type,'1','id');
+			if(!empty($list)){
+				$arr = array(
+					'code'=>'0',
+					'message'=>'成功！',
+					'app' => $list,
+				);
+				echo json_encode($arr);
+			}else{
+				$arr = array(
+					'code'=>'2',
+					'message'=>'请求错误！',
+					'app' => '',
+				);
+				echo json_encode($arr);
+			}
+
+		}else{
+			$arr = array(
+				'code'=>'2',
+				'message'=>'请求错误！',
+				'app' => '',
+			);
+			echo json_encode($arr);
+		}
+	}
+
+
+/**
+*    返回首页最新活动 请求方式post http://120.78.73.217:8090/index.php/ApiCms/activity
+*	 请求数据 city = 城市id
+*
+*	
+*	 返回值：1操作成功 2请求数据失败。3请求错误  json
+*/
+	function activity(){
+		if($_POST){
+			$type = $this->input->post('city');
+			$list = $this->Public_model->selectLimit('i_activity','city',$type,'1','');
+			if(!empty($list)){
+				$arr = array(
+					'code'=>'0',
+					'message'=>'成功！',
+					'activity' => $list,
+				);
+				echo json_encode($arr);
+			}else{
+				$arr = array(
+					'code'=>'2',
+					'message'=>'请求错误！',
+					'activity' => '',
+				);
+				echo json_encode($arr);
+			}
+
+		}else{
+			$arr = array(
+				'code'=>'2',
+				'message'=>'请求错误！',
+				'activity' => '',
+			);
+			echo json_encode($arr);
+		}
+	}
+
+// 
+	function sloganList(){
+		if($_POST){
+			$type = $this->input->post('city');
+			$list = $this->Public_model->select_where('i_slogan','city',$type,'create_time','desc');
+			if(!empty($list)){
+				$arr = array(
+					'code'=>'0',
+					'message'=>'成功！',
+					'slogan' => $list,
+				);
+				echo json_encode($arr);
+			}else{
+				$arr = array(
+					'code'=>'2',
+					'message'=>'请求错误！',
+					'slogan' => '',
+				);
+				echo json_encode($arr);
+			}
+
+		}else{
+			$arr = array(
+				'code'=>'2',
+				'message'=>'请求错误！',
+				'slogan' => '',
+			);
+			echo json_encode($arr);
+		}
+	}
 
 
 }
